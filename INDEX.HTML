@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Senteur</title>
+
+<style>
+body{font-family:Arial;margin:0;background:#f8f8f8}
+
+header{
+background:#d63384;
+color:white;
+text-align:center;
+padding:20px
+}
+
+header h1{margin:5px}
+.sub{font-size:14px}
+
+.hero{
+width:100%;
+height:250px;
+object-fit:cover
+}
+
+.produits{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+padding:15px
+}
+
+.card{
+background:white;
+border-radius:12px;
+padding:10px;
+text-align:center;
+box-shadow:0 5px 10px rgba(0,0,0,0.1)
+}
+
+.card img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:10px
+}
+
+button{
+background:#25D366;
+color:white;
+border:none;
+padding:8px;
+margin-top:5px;
+cursor:pointer;
+border-radius:6px
+}
+
+.panier{
+position:fixed;
+right:0;
+top:0;
+width:300px;
+height:100%;
+background:white;
+padding:15px;
+box-shadow:-5px 0 10px rgba(0,0,0,0.1);
+overflow:auto
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+margin:5px 0
+}
+
+footer{
+text-align:center;
+padding:10px;
+background:white;
+font-size:14px
+}
+
+.wave{
+background:#1ecb7a;
+margin-top:10px
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Maison Senteur 🌸</h1>
+<p class="sub">Huiles & Parfums - 1500 FCFA</p>
+<p class="sub">📞 781170866 | 💸 Wave disponible</p>
+</header>
+
+<img class="hero" src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539">
+
+<section class="produits">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1585386959984-a4155224a1f9">
+<h3>Kayali 28</h3>
+<p>1500 FCFA</p>
+<button onclick="ajouter('Kayali 28')">Ajouter</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba3">
+<h3>Invictus</h3>
+<p>1500 FCFA</p>
+<button onclick="ajouter('Invictus')">Ajouter</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1615634262417-6c65c3cba9c7">
+<h3>One Million</h3>
+<p>1500 FCFA</p>
+<button onclick="ajouter('One Million')">Ajouter</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1615634262417-6c65c3cba9c7">
+<h3>Scandal Femme</h3>
+<p>1500 FCFA</p>
+<button onclick="ajouter('Scandal Femme')">Ajouter</button>
+</div>
+
+</section>
+
+<div class="panier">
+<h2>🛒 Panier</h2>
+<div id="liste"></div>
+<p><strong>Total: <span id="total">0</span> FCFA</strong></p>
+
+<button onclick="commander()">Commander sur WhatsApp</button>
+<button class="wave" onclick="payerWave()">💸 Payer avec Wave</button>
+</div>
+
+<footer>
+© Maison Senteur - Dakar
+</footer>
+
+<script>
+let panier = [];
+
+function ajouter(nom){
+let produit = panier.find(p=>p.nom===nom);
+if(produit){produit.qte++}
+else{panier.push({nom:nom,prix:1500,qte:1})}
+afficher();
+}
+
+function afficher(){
+let liste=document.getElementById('liste');
+let total=0;
+liste.innerHTML='';
+
+panier.forEach(p=>{
+let div=document.createElement('div');
+div.className='item';
+div.innerHTML=`${p.nom} x${p.qte}`;
+liste.appendChild(div);
+total+=p.prix*p.qte;
+});
+
+document.getElementById('total').textContent=total;
+}
+
+function commander(){
+let message="Bonjour, je veux commander :%0A";
+let total=0;
+
+panier.forEach(p=>{
+message+=`${p.nom} x${p.qte} = ${p.prix*p.qte} FCFA%0A`;
+total+=p.prix*p.qte;
+});
+
+message+="Total : "+total+" FCFA";
+
+window.open("https://wa.me/221781170866?text="+message);
+}
+
+function payerWave(){
+alert("Paiement Wave : 781170866");
+}
+</script>
+
+</body>
+</html>
